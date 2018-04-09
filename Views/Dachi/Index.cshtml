@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="~/css/Index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Dojodachi!</title>
+    <script>
+        $(document).ready(function(){
+            $.get("/start",function(response){
+                $("#fullness").html(response.fullness)
+                $("#happiness").html(response.happiness)
+                $("#meals").html(response.meals)
+                $("#energy").html(response.energy)
+            })
+            $("#feed").click(function(){
+                $.get("/feed",function(response){
+                    $("#meals").html(response.meals)
+                    $("#fullness").html(response.fullness)
+                    $("#message").html(response.message)
+                    if(response["response"]=="hate"){
+                        $("#img").attr("src","./img/angry.jpg")
+                    }
+                    else{
+                        $("#img").attr("src","./img/love.jpg")
+                    }
+                    if(response["status"]=="Win"){
+                        $("#message").html("Congratulations! You won!")
+                        $(".playbutton").remove()
+                        $("#img").attr("src","./img/win.jpg")
+                        $("#actions").append("<a href=''><button>Restart?</button></a>");
+                    }
+                })
+            })
+            $("#play").click(function(){
+                $.get("/play",function(response){
+                    $("#happiness").html(response.happiness)
+                    $("#energy").html(response.energy)
+                    $("#message").html(response.message)
+                    if(response["response"]=="hate"){
+                        $("#img").attr("src","./img/angry.jpg")
+                    }
+                    else{
+                        $("#img").attr("src","./img/love.jpg")
+                    }
+                    if(response["status"]=="Win"){
+                        $("#message").html("Congratulations! You won!")
+                        $(".playbutton").remove()
+                        $("#img").attr("src","./img/win.jpg")
+                        $("#actions").append("<a href=''><button>Restart?</button></a>");
+                    }
+                })
+            })
+            $("#work").click(function(){
+                $.get("/work",function(response){
+                    $("#meals").html(response.meals)
+                    $("#energy").html(response.energy)
+                    $("#img").attr("src","./img/work.jpg")
+                    $("#message").html(response.message)
+                })
+            })
+            $("#sleep").click(function(){
+                $.get("/sleep",function(response){
+                    $("#happiness").html(response.happiness)
+                    $("#fullness").html(response.fullness)
+                    $("#img").attr("src","./img/sleep.jpg")
+                    $("#energy").html(response.energy)
+                    $("#message").html(response.message)
+                    if(response["status"]=="Dead"){
+                        $("#message").html("Your Dojodachi is embraced by the long dark...")
+                        $(".playbutton").remove()
+                        $("#img").attr("src","./img/dead.jpg")
+                        $("#actions").append("<a href=''><button>Restart?</button></a>");
+                    }
+                    else if(response["status"]=="Win"){
+                        $("#message").html("Congratulations! You won!")
+                        $("#img").attr("src","./img/win.jpg")
+                        $(".playbutton").remove()
+                        $("#actions").append("<a href=''><button>Restart?</button></a>");
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="stats">
+            <p class="stat">Fullness: <span id="fullness"></span></p>
+            <p class="stat">Happiness: <span id="happiness"></span></p>
+            <p class="stat">Meals: <span id="meals"></span></p>
+            <p class="stat">Energy: <span id="energy"></span></p>
+        </div>
+        <div id="main">
+            <img id="img" src="~/img/base.jpg" alt="">
+            <p id="message">Your pet Dojodachi is excited to see you!</p>
+        </div>
+        <div id="actions">
+            <button class="playbutton" id="feed">Feed</button>
+            <button class="playbutton" id="play">Play</button>
+            <button class="playbutton" id="work">Work</button>
+            <button class="playbutton" id="sleep">Sleep</button>
+        </div>
+    </div>
+</body>
+</html>

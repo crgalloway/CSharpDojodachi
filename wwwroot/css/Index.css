@@ -1,0 +1,13 @@
+#wrapper{
+    text-align: center;
+}
+.stat{
+    display: inline-block
+}
+#main{
+    border: 1px solid black;
+    display: inline-block;
+    height: 50%;
+    width: 50%;
+    margin: 5px;
+}
